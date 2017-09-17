@@ -1,7 +1,5 @@
 node_modules
-.vscode
 syncano/.dist
 syncano/.build
 syncano/.bundles
 syncano/**/scripts/.bundles
-*.js

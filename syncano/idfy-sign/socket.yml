@@ -1,0 +1,95 @@
+name: idfy-sign
+description: Description of idfy-sign
+version: 0.0.1
+config:
+  API_ID:
+    required: true
+    description: "Your Idfy account id"
+  API_PRIMARY_KEY:
+    required: true
+    description: "Your Idfy accounts primary api key"
+  API_SECONDARY_KEY:
+    required: true
+    description: "Your Idfy accounts secondary api key"
+  TEST:
+    required: true
+    description: "Using Idfy's test environment, 'true' or 'false'"
+  INSTANCE_URL:
+    required: true
+    description: "URL of your syncano instance"
+    long_description: "e.g. https://api.syncano.io/v2/instances/idfy-rules-1234"
+  PING_TOKEN:
+    required: false
+events:
+  document_signed:
+    DocumentId:
+      type: string
+    Operation:
+      type: string
+    ExternalDocumentId:
+      type: string
+    SigneeRef:
+      type: string
+    ExternalUniqueId:
+      type: string
+endpoints:
+  Callback:
+    description: Signere will call this endpoint when a document is signed
+    file: scripts/callback.js
+  Status: 
+    description: Gets time of server
+    file: scripts/status.js
+  DocumentCreate:
+    description: "Creates a new document to sign, and returns a document response object (including the generated document ID). Remark: To create a new document, one must assign an already existing document job to it or generate a new one."
+    file: scripts/document_create.js    
+  DocumentCancel:
+    description: ""
+    file: scripts/document_cancel.js    
+  DocumentChangeDeadline:
+    description: ""
+    file: scripts/document_change_deadline.js    
+  DocumentGet:
+    description: ""
+    file: scripts/document_get.js    
+  DocumentGetSignUrl:
+    description: ""
+    file: scripts/document_get_sign_url.js    
+  DocumentGetTempUrl:
+    description: ""
+    file: scripts/document_get_temp_url.js    
+  DocumentJobCreate:
+    description: ""
+    file: scripts/documentjob_create.js       
+  DocumentJobGet:
+    description: ""
+    file: scripts/documentjob_get.js  
+  DocumentConvert:
+    description: ""
+    file: scripts/document_convert.js  
+  DocumentDownload:
+    description: "Downloads a signed document as a file"
+    file: scripts/document_download.js  
+    parameters:
+      Type:
+        type: string
+        description: file type to download, SDO, PDF or PADES
+      DocumentId:
+        type: string
+  ExternalSignCreate:
+    description: ""
+    file: scripts/externalsign_create.js  
+  ExternalSignGetSignUrls:
+    description: ""
+    file: scripts/externalsign_get_sign_urls.js  
+  ExternalSignGetViewerUrl:
+    description: ""
+    file: scripts/externalsign_get_viewer_url.js  
+  ExternalSignGetBankIdMobileSignSession:
+    description: ""
+    file: scripts/externalsign_get_bankid_mobile_sign_session.js  
+  ExternalSignGetBankIdAppUrl:
+    description: ""
+    file: scripts/externalsign_get_bankid_app_url.js  
+  ExternalSignStartBankIdMobileSignSession:
+    description: ""
+    file: scripts/externalsign_start_bankid_mobile_sign_session.js  
