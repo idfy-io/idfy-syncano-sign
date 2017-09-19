@@ -1,95 +1,198 @@
 name: idfy-sign
-description: Description of idfy-sign
-version: 0.0.1
+description: |
+  Wrapper for Idfy's Sign API - https://testapi.signere.no/
+  Sign up for a test account at https://onboard.signere.no
+long_description: Test
+version: 0.1.2
 config:
   API_ID:
     required: true
-    description: "Your Idfy account id"
+    description: Your Idfy account id
   API_PRIMARY_KEY:
     required: true
-    description: "Your Idfy accounts primary api key"
+    description: Your Idfy accounts primary api key
   API_SECONDARY_KEY:
     required: true
-    description: "Your Idfy accounts secondary api key"
+    description: Your Idfy accounts secondary api key
   TEST:
     required: true
-    description: "Using Idfy's test environment, 'true' or 'false'"
+    description: 'Using Idfy''s test environment, ''true'' or ''false'''
   INSTANCE_URL:
     required: true
-    description: "URL of your syncano instance"
-    long_description: "e.g. https://api.syncano.io/v2/instances/idfy-rules-1234"
+    description: URL of your syncano instance
+    long_description: 'e.g. https://api.syncano.io/v2/instances/idfy-rules-1234'
   PING_TOKEN:
     required: false
 events:
   document_signed:
-    DocumentId:
-      type: string
-    Operation:
-      type: string
-    ExternalDocumentId:
-      type: string
-    SigneeRef:
-      type: string
-    ExternalUniqueId:
-      type: string
+    description: >-
+      This event is emitted whenever a document is signed and you haven't
+      provided a custom Push Url
+    parameters:
+      DocumentId:
+        type: string
+      Operation:
+        type: string
+      ExternalDocumentId:
+        type: string
+      SigneeRef:
+        type: string
+      ExternalUniqueId:
+        type: string
 endpoints:
   Callback:
     description: Signere will call this endpoint when a document is signed
     file: scripts/callback.js
-  Status: 
+  Status:
     description: Gets time of server
     file: scripts/status.js
   DocumentCreate:
-    description: "Creates a new document to sign, and returns a document response object (including the generated document ID). Remark: To create a new document, one must assign an already existing document job to it or generate a new one."
-    file: scripts/document_create.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=Post
+      for documentation
+
+      Creates a new document to sign, and returns a document response object
+      (including the generated document ID). Remark: To create a new document,
+      one must assign an already existing document job to it or generate a new
+      one.
+    file: scripts/document_create.js
+    parameters: null
   DocumentCancel:
-    description: ""
-    file: scripts/document_cancel.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=CancelDocument
+      for documentation
+
+      Cancels the given document (the document is then still available for the
+      signee, but no longer marked as ready for signature). Remark: if using
+      Json, a GUID must not contain dashes (-), unlike XML.
+    file: scripts/document_cancel.js
   DocumentChangeDeadline:
-    description: ""
-    file: scripts/document_change_deadline.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=ChangeDocumentSignDeadline
+      for documentation
+
+      Changes the signature deadline for a given document 
+
+      (after expiration date, the receiver is no longer allowed to sign the
+      document).
+    file: scripts/document_change_deadline.js
   DocumentGet:
-    description: ""
-    file: scripts/document_get.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=Get
+      for documentation
+
+      Retrieves the document with the given ID."
+    file: scripts/document_get.js
   DocumentGetSignUrl:
-    description: ""
-    file: scripts/document_get_sign_url.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=SignUrl
+      for documentation
+
+      Returns the url to sign the document for the given Signeeref or the first
+      Signeeref if not SigneerefId is specified
+    file: scripts/document_get_sign_url.js
   DocumentGetTempUrl:
-    description: ""
-    file: scripts/document_get_temp_url.js    
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=Document&actionname=GetSignedDocumentTemporaryUrl
+      for documentation
+
+      Returns a temporary URL for viewing a signed document in the BankID
+      applet.
+    file: scripts/document_get_temp_url.js
   DocumentJobCreate:
-    description: ""
-    file: scripts/documentjob_create.js       
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=DocumentJob&actionname=Post
+      for documentation
+
+      Creates a document job (every document must be assigned to a document
+      job).
+
+      Returns the ID (GUID) for the created document job.
+    file: scripts/documentjob_create.js
   DocumentJobGet:
-    description: ""
-    file: scripts/documentjob_get.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=DocumentJob&actionname=Get
+      for documentation
+
+      Retrieves a document job in the form of a response object containing the
+      document job parameters. Remark: if using Json, a GUID must not contain
+      dashes (-), unlike XML.
+    file: scripts/documentjob_get.js
   DocumentConvert:
-    description: ""
-    file: scripts/document_convert.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=DocumentConvert&actionname=Post
+      for documentation
+
+      Converts documents (doc, docx, txt, rtf and openoffice documents to PDF.
+      Uses multipart form upload (ordinary http file upload)
+    file: scripts/document_convert.js
   DocumentDownload:
-    description: "Downloads a signed document as a file"
-    file: scripts/document_download.js  
+    description: Downloads a signed document as a file
+    file: scripts/document_download.js
     parameters:
       Type:
         type: string
-        description: file type to download, SDO, PDF or PADES
+        description: 'file type to download, SDO, PDF or PADES'
       DocumentId:
         type: string
   ExternalSignCreate:
-    description: ""
-    file: scripts/externalsign_create.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=Post
+      for documentation
+
+      Creates a externalsign request, to integrate signing of documents in to a
+      website.
+    file: scripts/externalsign_create.js
   ExternalSignGetSignUrls:
-    description: ""
-    file: scripts/externalsign_get_sign_urls.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=Get
+      for documentation
+
+      Get the URLs to sign the Document.
+    file: scripts/externalsign_get_sign_urls.js
   ExternalSignGetViewerUrl:
-    description: ""
-    file: scripts/externalsign_get_viewer_url.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=GetViewerUrl
+      for documentation
+
+      Get the URLs to view a viewerapplet in a iFrame on your site.
+    file: scripts/externalsign_get_viewer_url.js
   ExternalSignGetBankIdMobileSignSession:
-    description: ""
-    file: scripts/externalsign_get_bankid_mobile_sign_session.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=GetBankIDStatus
+      for documentation
+
+      Get status of the BankID mobile Sign session
+    file: scripts/externalsign_get_bankid_mobile_sign_session.js
   ExternalSignGetBankIdAppUrl:
-    description: ""
-    file: scripts/externalsign_get_bankid_app_url.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=BankIDAppUrl
+      for documentation
+
+      Creates a app launch uri for the BankID app (iOS and Android) for signing
+      a document for given signeeref
+    file: scripts/externalsign_get_bankid_app_url.js
   ExternalSignStartBankIdMobileSignSession:
-    description: ""
-    file: scripts/externalsign_start_bankid_mobile_sign_session.js  
+    description: >
+      See
+      https://testapi.signere.no/Home/Details?controllername=ExternalSign&actionname=BankIDMobileSign
+      for documentation
+
+      Starts a BankID mobile sign session for the given document, with given
+      mobilenumber and date of birth. Returns the BankID mobile reference "Snill
+      bank"
+    file: scripts/externalsign_start_bankid_mobile_sign_session.js
