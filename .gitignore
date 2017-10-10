@@ -5,3 +5,4 @@ syncano/.build
 syncano/.bundles
 syncano/**/scripts/.bundles
 *.js
+.env
