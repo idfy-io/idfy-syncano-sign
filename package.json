@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "@idfy/legacy": "^0.0.2",
-    "@types/node": "^8.0.28",
-    "axios": "0.16.2",
+    "axios": "^0.16.2",
+    "syncano-server": "beta",
     "syncano-validate": "^0.5.1"
   },
   "devDependencies": {
-    "eslint-config-google": "^0.9.1"
+    "@types/node": "^8.0.33"
   }
 }
