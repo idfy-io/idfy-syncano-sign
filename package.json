@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "tsc && mocha -s 1800 --reporter spec --require babel-register --timeout 4000 -- \"test/*.test.js\""
+  },
   "dependencies": {
     "@idfy/legacy": "^0.0.2",
     "axios": "^0.16.2",
@@ -6,6 +9,21 @@
     "syncano-validate": "^0.5.1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.33"
+    "@types/node": "^8.0.33",
+    "chai": "^4.1.2",
+    "dotenv": "^4.0.0",
+    "syncano-test": "^0.1.10"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "7"
+          }
+        }
+      ]
+    ]
   }
 }
