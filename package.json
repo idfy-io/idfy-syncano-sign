@@ -1,17 +1,31 @@
 {
   "scripts": {
-    "test": "tsc && mocha -s 1800 --reporter spec --require babel-register --timeout 4000 -- \"test/*.test.js\""
+    "test": "yarn && tsc && npm-run-all --parallel test:lint test:e2e:coverage",
+    "test:e2e-single": "mocha -s 1800 --reporter spec --require babel-register --timeout 4000",
+    "test:e2e-single:coverage": "nyc --produce-source-map=true mocha -s 1800 --reporter spec --require babel-register --timeout 4000",
+    "test:e2e": "npm run test:e2e-single \"test/*.test.js\"",
+    "test:e2e:coverage": "nyc --produce-source-map=true npm run test:e2e",
+    "test:lint": "standard --fix"
   },
   "dependencies": {
-    "@idfy/legacy": "^0.0.2",
+    "@idfy/legacy": "0.0.5",
     "axios": "^0.16.2",
-    "syncano-server": "beta",
+    "syncano-server": "^1.0.1-6",
     "syncano-validate": "^0.5.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
     "@types/node": "^8.0.33",
+    "babel-core": "^6.26.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "dotenv": "^4.0.0",
+    "mocha": "^3.5.3",
+    "mockery": "^2.1.0",
+    "npm-run-all": "^4.1.1",
+    "nyc": "^11.2.1",
+    "sinon": "^3.3.0",
+    "standard": "^10.0.3",
     "syncano-test": "^0.1.10"
   },
   "babel": {

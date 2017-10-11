@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -7,7 +7,7 @@ export default (ctx: any) => {
 
   const validation = {};
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => c.Status_ServerTime(),
       validation
   );

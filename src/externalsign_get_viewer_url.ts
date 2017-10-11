@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -11,7 +11,7 @@ export default (ctx: any) => {
       Language: syncanoHelper.validationRules.required_language
   };
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => c.ExternalSign_GetIframeUrl(a.DocumentId, a.Domain, a.Language),
       validation
   );

@@ -25,7 +25,7 @@ config:
     required: false
 events:
   document_signed:
-    description: >-
+    description: >
       This event is emitted whenever a document is signed and you haven't
       provided a custom Push Url
     parameters:

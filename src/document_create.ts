@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -57,7 +57,7 @@ export default (ctx: any) => {
       }
   }
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => c.Document_Create(a),
       validation
   );

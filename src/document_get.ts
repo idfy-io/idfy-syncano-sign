@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -9,7 +9,7 @@ export default (ctx: any) => {
       DocumentId: "required|regex:[0-9a-fA-F]{32}",
   };
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => c.Document_GetDocument(a.DocumentId),
       validation
   );

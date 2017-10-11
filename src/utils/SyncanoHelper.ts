@@ -1,15 +1,15 @@
 import { SignereClient } from '@idfy/legacy';
-const util = require('util');
-const { validate } = require('syncano-validate');
-const Syncano = require('syncano-server');
-
+import { validate } from 'syncano-validate';
+import Syncano from 'syncano-server';
+import { AxiosError, AxiosResponse } from 'axios';
+const util = require("util");
 export class SyncanoHelper {
     response: any;
     ctx: any;
-    constructor (ctx: any) {
-      const {response} = new Syncano(ctx);
-      this.ctx = ctx;
-      this.response = response;
+    constructor(ctx: any) {
+        const { response } = new Syncano(ctx);
+        this.ctx = ctx;
+        this.response = response;
     }
 
     signereAction<T>(fn: (client: SignereClient, args: any) => Promise<T>): Promise<T> {
@@ -19,18 +19,33 @@ export class SyncanoHelper {
     signereJsonResponse<T>(fn: (client: SignereClient, args: any) => Promise<T>, validationRules: any) {
         const promise = validationRules ? validate(this.ctx.args, validationRules) : Promise.resolve();
         return promise.then(() => fn(this.getSignereClient(), this.ctx.args)
-            .then(r =>
-                this.response.json(r))
-        ).catch((err: any) =>
-            this.response.json({ error: util.inspect(err) }));
+            .then(r => {
+                console.log("JSON RESPONSE"); console.log(r);
+                this.response.json(r)
+                return r;
+            })
+        ).catch((err: AxiosError) => {
+            let error = {
+                error: err.response ? err.response.data : util.inspect(err, {depth:6}),
+                status: err.code,
+            };
+            this.response.json(error);
+            return error;
+        });
     }
 
-    signereResponse<T>(fn: (client: SignereClient, args: any) => Promise<T>, validationRules: any) : Promise<T> {
+    signereResponse<T>(fn: (client: SignereClient, args: any) => Promise<T>, validationRules: any): Promise<T> {
         const promise = validationRules ? validate(this.ctx.args, validationRules) : Promise.resolve();
         return promise.then(() => fn(this.getSignereClient(), this.ctx.args)
             .then(r => r
-            ).catch((err: any) =>
-                this.response.json({ error: util.inspect(err) })));
+            ).catch((err: AxiosError) => {
+                let error = {
+                    error: err.response ? err.response.data : util.inspect(err, {depth:6}),
+                    status: err.code,
+                };
+                this.response.json(error);
+                return error;
+            }));
     }
 
     validationRules = {

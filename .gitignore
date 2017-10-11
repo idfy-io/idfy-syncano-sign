@@ -6,3 +6,4 @@ syncano/.bundles
 syncano/**/scripts/.bundles
 *.js
 .env
+.nyc_output

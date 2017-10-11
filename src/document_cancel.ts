@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -12,7 +12,7 @@ export default (ctx: any) => {
       Signature: "required|min:2"
   };
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => c.Document_Cancel(a),
       validation
   );

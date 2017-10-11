@@ -1,4 +1,4 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
@@ -12,7 +12,7 @@ export default (ctx: any) => {
 
   let args : any;
 
-  syncanoHelper.signereResponse(
+  return syncanoHelper.signereResponse(
       (c, a) => { args = a; return a.Type == "SDO" ?
           c.DocumentFile_GetSdo(a.DocumentId) : (a.Type == "PDF" ?
               c.DocumentFile_GetUnsignedPdf(a.DocumentId) :

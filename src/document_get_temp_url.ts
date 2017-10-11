@@ -1,11 +1,11 @@
-const Syncano = require('syncano-server');
+import Syncano from 'syncano-server';
 import {SyncanoHelper} from './utils/SyncanoHelper';
 
 export default (ctx: any) => {
   const {data, events, response} = Syncano(ctx)
   const syncanoHelper = new SyncanoHelper(ctx)
 
-  syncanoHelper.signereJsonResponse(
+  return syncanoHelper.signereJsonResponse(
       (c, a) => {
           return c.Document_GetTempViewUrl(a.DocumntId);
       },
